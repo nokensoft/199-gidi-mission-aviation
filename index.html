@@ -19,6 +19,8 @@
         
         body {
             font-family: 'Calibri', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
         
         .hero-bg {
@@ -30,6 +32,23 @@
 
         .nav-scrolled {
             transition: all 0.4s ease;
+        }
+
+        .section-shell {
+            padding-top: clamp(4rem, 7vw, 6rem);
+            padding-bottom: clamp(4rem, 7vw, 6rem);
+        }
+
+        .section-container {
+            max-width: 72rem;
+            margin-inline: auto;
+            padding-inline: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .section-container {
+                padding-inline: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -57,22 +76,22 @@
             </div>
 
             <!-- Main Navigation Bar -->
-            <div class="flex items-center justify-between px-4 sm:px-8 py-4">
+            <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5">
                 
                 <!-- Logo Left: Visible on Mobile always, on Desktop only when scrolled -->
-                <div class="flex items-center gap-3 transition-opacity duration-200" 
+                <div class="flex items-center gap-2.5 sm:gap-3 transition-opacity duration-200" 
                      :class="{ 'md:opacity-0 md:pointer-events-none': !scrolled }">
                     <div class="w-10 h-10 flex items-center justify-center text-white text-3xl">
                         <img src="./Logo GIDI Mission Aviation.png" alt="GIDI Mission Aviation Logo" class="object-contain w-full h-full">
                     </div>
                     <div>
-                        <span class="font-bold text-lg sm:text-2xl tracking-tight text-slate-900 block whitespace-nowrap">GIDI Mission Aviation</span>
+                        <span class="font-bold text-base sm:text-xl lg:text-2xl tracking-tight text-slate-900 block whitespace-nowrap">GIDI Mission Aviation</span>
                     </div>
                 </div>
 
                 <!-- Menu Center/Right: Hidden on Mobile, Flex on Desktop -->
                 <div class="hidden md:flex items-center gap-8 lg:gap-10 text-sm font-semibold tracking-wide text-slate-700">
-                    <a href="#about" class="hover:text-blue-600 transition-colors">About Us</a>
+                    <a href="#mission-intro" class="hover:text-blue-600 transition-colors">About Us</a>
                     <a href="#programs" class="hover:text-blue-600 transition-colors">Our Programs</a>
                     <a href="#fundraising" class="hover:text-blue-600 transition-colors">Fundraising</a>
                     <a href="#testimonials" class="hover:text-blue-600 transition-colors">Testimonials</a>
@@ -81,7 +100,7 @@
                 <!-- Desktop Action Button & Mobile Hamburger Trigger Grid Container -->
                 <div class="flex items-center gap-4">
                     <!-- Donate Button (Hidden on small mobile viewports, block on md screens) -->
-                    <a href="https://wa.me/6281289471246" target="_blank"
+                    <a href="https://wa.me/6281289471246" target="_blank" rel="noopener noreferrer"
                        class="hidden sm:flex bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-none shadow-sm items-center gap-2 font-bold text-sm tracking-wide transition-all">
                         <i class="fa-brands fa-whatsapp text-base"></i>
                         <span>DONATE NOW</span>
@@ -105,19 +124,24 @@
             </div>
 
             <!-- Mobile Drawer Menu Panel (Collapsible Drawer Canvas) -->
-            <div x-show="mobileMenuOpen" 
-                 x-collapse
+            <div x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
                  style="display: none;"
                  class="md:hidden border-t border-slate-100 bg-slate-50 shadow-inner">
                 <div class="px-6 py-4 space-y-3 font-medium text-slate-700 text-base">
-                    <a href="#about" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">About Us</a>
+                    <a href="#mission-intro" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">About Us</a>
                     <a href="#programs" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">Our Programs</a>
-                    <a href="#funrising" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">Fundraising</a>
+                    <a href="#fundraising" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">Fundraising</a>
                     <a href="#testimonials" @click="mobileMenuOpen = false" class="block py-2.5 border-b border-slate-200/60 hover:text-blue-600 transition-colors">Testimonials</a>
                     
                     <!-- Fallback Small-Mobile CTA inside drawer canvas -->
                     <div class="pt-4 sm:hidden">
-                        <a href="https://wa.me/6281289471246" target="_blank"
+                        <a href="https://wa.me/6281289471246" target="_blank" rel="noopener noreferrer"
                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-none flex items-center justify-center gap-2 font-bold text-center transition-all tracking-wide">
                             <i class="fa-brands fa-whatsapp text-lg"></i> DONATE VIA WHATSAPP
                         </a>
@@ -135,7 +159,7 @@
     <!-- ========================================== -->
     <!-- SECTION: AUTOMATIC INTERACTIVE SLIDER      -->
     <!-- ========================================== -->
-    <section id="main-slider" class="py-24 bg-white relative overflow-hidden" 
+    <section id="main-slider" class="section-shell bg-white relative overflow-hidden" 
              x-data="{ 
                 currentSlide: 1, 
                 totalSlides: 2, 
@@ -146,11 +170,11 @@
                     this.progress = 0;
                     this.imgLoading = true;
                     
-                    // Interval update progress bar (setiap 30ms menambah 1% -> total 3000ms)
-                    let interval = setInterval(() => {
+                    // Update progress bar every 30ms (total cycle around 3000ms)
+                    setInterval(() => {
                         this.progress += 1;
                         
-                        // Menghilangkan efek blur gambar sedikit lebih cepat sebelum slide berganti
+                        // Remove image blur slightly before the next slide transition
                         if(this.progress > 25) { this.imgLoading = false; }
                         
                         if (this.progress >= 100) {
@@ -164,13 +188,13 @@
              x-init="initTimer()">
         
         <!-- Top Visual Loading Line Indicator (3-Seconds Sync) -->
-        <div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-sky-400 to-blue-600 transition-all ease-linear duration-30"
-             :style="`width: ${progress}%` British"></div>
+        <div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-sky-400 to-blue-600 transition-all ease-linear duration-100"
+             :style="`width: ${progress}%`"></div>
 
-        <div class="max-w-6xl mx-auto px-6 relative">
+        <div class="section-container relative">
             
             <!-- Slide Container Layout -->
-            <div class="relative min-h-[500px] md:min-h-[420px]">
+            <div class="relative min-h-[620px] sm:min-h-[500px] md:min-h-[420px]">
                 
                 <!-- ========================================== -->
                 <!-- SLIDE 1: ABOUT US                          -->
@@ -182,25 +206,25 @@
                      x-transition:leave="transition ease-in duration-300 absolute inset-0"
                      x-transition:leave-start="opacity-100 translate-x-0"
                      x-transition:leave-end="opacity-0 -translate-x-8"
-                     class="grid md:grid-cols-2 gap-16 items-center">
+                     class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
                     
                     <!-- Left: Copywriting & Actions -->
                     <div>
                         <span class="uppercase tracking-widest text-blue-600 font-semibold text-sm block mb-1">Slide 01 / About Us</span>
-                        <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-6 text-slate-900 tracking-tight">Flying for Faith & Service</h2>
-                        <p class="text-lg text-slate-600 leading-relaxed mb-10">
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 mb-6 text-slate-900 tracking-tight">Flying for Faith & Service</h2>
+                        <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-8 sm:mb-10">
                             GIDI Mission Aviation uses aircraft to reach isolated communities in the mountains of Papua, Indonesia. 
                             We provide emergency medical flights, deliver essential supplies, and support gospel outreach.
                         </p>
                         
                         <!-- Actions -->
-                        <div class="flex flex-wrap items-center gap-4">
-                            <a href="#target-dana" 
-                               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-none transition duration-300 shadow-md shadow-blue-500/10 flex items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                            <a href="#fundraising" 
+                               class="w-full sm:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-none transition duration-300 shadow-md shadow-blue-500/10 flex items-center gap-2">
                                 <i class="fa-solid fa-heart text-sm"></i> Donate Now
                             </a>
                             <a href="#contact" 
-                               class="border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold py-3 px-6 rounded-none transition duration-300 flex items-center gap-2 bg-white">
+                               class="w-full sm:w-auto justify-center border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold py-3 px-6 rounded-none transition duration-300 flex items-center gap-2 bg-white">
                                 <i class="fa-solid fa-comment-dots text-slate-400"></i> Contact Us
                             </a>
                         </div>
@@ -232,13 +256,13 @@
                      x-transition:leave-start="opacity-100 translate-x-0"
                      x-transition:leave-end="opacity-0 -translate-x-8"
                      style="display: none;"
-                     class="grid md:grid-cols-2 gap-16 items-center">
+                     class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
                     
                     <!-- Left: Program Info -->
                     <div>
                         <span class="uppercase tracking-widest text-blue-600 font-semibold text-sm block mb-1">Slide 02 / Mission Fleet</span>
-                        <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-6 text-slate-900 tracking-tight">New Aircraft Procurement</h2>
-                        <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 mb-6 text-slate-900 tracking-tight">New Aircraft Procurement</h2>
+                        <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
                             This program is fully dedicated to funding the acquisition of a brand-new <strong class="text-slate-900">Cessna Grand Caravan</strong>. This asset is custom-configured for STOL (Short Take-Off and Landing) maneuvers on unpaved highland airstrips.
                         </p>
                         
@@ -256,8 +280,8 @@
 
                         <!-- Actions -->
                         <div class="flex flex-wrap items-center gap-4">
-                            <a href="#target-dana" 
-                               class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-none transition duration-300 flex items-center gap-2">
+                            <a href="#fundraising" 
+                               class="w-full sm:w-auto justify-center bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-none transition duration-300 flex items-center gap-2">
                                 View Faith Packages <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
                         </div>
@@ -319,11 +343,11 @@
     <!-- ========================================== -->
     <!-- SECTION 1: FAITH FOUNDATION & HERO INTRO -->
     <!-- ========================================== -->
-    <section id="mission-intro" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+    <section id="mission-intro" class="section-shell bg-slate-900 text-white relative overflow-hidden">
         <!-- Cloud/Ambiance Decoration -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.1),transparent_50%)]"></div>
         
-        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
             <span class="text-blue-400 font-bold tracking-widest text-sm uppercase bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20">
                 ACTS 1:8 • BE THE LIGHT
             </span>
@@ -352,8 +376,8 @@
     <!-- ========================================== -->
     <!-- SECTION 2: AIRCRAFT VISUAL & MISSION URGENCY -->
     <!-- ========================================== -->
-    <section id="urgency" class="py-24 bg-white overflow-hidden">
-        <div class="max-w-6xl mx-auto px-6">
+    <section id="urgency" class="section-shell bg-white overflow-hidden">
+        <div class="section-container">
             
             <!-- 1 Column Full: Transparent Plane Image at the Top -->
             <div class="w-full flex justify-center items-center mb-12 relative group">
@@ -368,7 +392,7 @@
             </div>
 
             <!-- Main Program Statement (Right under the image) -->
-            <div class="text-center max-w-3xl mx-auto mb-20">
+            <div class="text-center max-w-3xl mx-auto mb-14 md:mb-20">
                 <p class="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed">
                     Aircraft Procurement Program by the Evangelical Church of Indonesia for Evangelism Expansion. 
                     <span class="text-blue-600 block mt-3 font-bold font-serif italic text-2xl md:text-3xl">
@@ -381,7 +405,7 @@
             <div class="grid md:grid-cols-2 gap-8 items-stretch">
                 
                 <!-- Left Column: Background -->
-                <div class="bg-slate-50 border border-slate-100 rounded-3xl p-8 md:p-10 flex flex-col justify-center">
+                <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 sm:p-8 md:p-10 flex flex-col justify-center">
                     <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Background</span>
                     <h3 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight mb-4">
                         Why Do We Need This Aircraft?
@@ -393,7 +417,7 @@
                 </div>
                 
                 <!-- Right Column: Current Challenges (High Contrast Dark Card) -->
-                <div class="bg-slate-950 text-white rounded-3xl p-8 md:p-10 shadow-xl relative overflow-hidden flex flex-col justify-center">
+                <div class="bg-slate-950 text-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl relative overflow-hidden flex flex-col justify-center">
                     <div class="absolute -right-6 -bottom-10 text-8xl text-slate-800/30 font-black select-none pointer-events-none">!</div>
                     
                     <h4 class="text-lg font-bold text-white mb-4 flex items-center gap-3">
@@ -415,12 +439,12 @@
    <!-- ========================================== -->
     <!-- SECTION 3: CORE PROGRAMS (BENTO GRID STYLE) -->
     <!-- ========================================== -->
-    <section id="programs" class="py-24 bg-slate-50 border-t border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-6">
+    <section id="programs" class="section-shell bg-slate-50 border-t border-b border-slate-100">
+        <div class="section-container">
             
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Purpose of Procurement</span>
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight">4 Pillars of Aviation Ministry</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">4 Pillars of Aviation Ministry</h2>
                 <p class="text-slate-500 mt-4 text-base">
                     Supporting the ministry of the GIDI Church in bringing the Gospel, medicine, and hope to unreachable regions, becoming a blessing to all nations.
                 </p>
@@ -430,7 +454,7 @@
             <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
                 
                 <!-- Card 1: Evangelism -->
-                <div class="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center text-center group">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center text-center group">
                     <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 mx-auto">
                         <i class="fa-solid fa-earth-americas"></i>
                     </div>
@@ -486,8 +510,8 @@
     <!-- ========================================== -->
     <!-- SECTION 4: FLEET TARGET & FAITH PACKAGES   -->
     <!-- ========================================== -->
-    <section id="fundraising" class="py-24 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
+    <section id="fundraising" class="section-shell bg-white">
+        <div class="section-container">
             
             <!-- Unit Specification Banner (Image on the Right) -->
             <div class="bg-slate-900 text-white rounded-3xl shadow-xl mb-16 relative overflow-hidden group">
@@ -496,7 +520,7 @@
                     <span class="text-[150px] md:text-[220px] font-black">STOL</span>
                 </div>
                 
-                <div class="grid lg:grid-cols-12 gap-8 items-center p-8 md:p-12 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-8 items-center p-6 sm:p-8 md:p-12 relative z-10">
                     <!-- Left Column: Copywriting -->
                     <div class="lg:col-span-7">
                         <span class="text-blue-400 font-bold text-sm uppercase tracking-wider block mb-2">Fundraising for New Fleet Acquisition</span>
@@ -521,14 +545,14 @@
 
             <!-- Faith Partnership Packages Heading -->
             <div class="text-center max-w-2xl mx-auto mb-12">
-                <h3 class="text-3xl font-bold text-slate-900">Faith Partnership Packages</h3>
+                <h3 class="text-2xl sm:text-3xl font-bold text-slate-900">Faith Partnership Packages</h3>
                 <p class="text-slate-500 mt-2">Choose your part in this new chapter of evangelism history</p>
             </div>
 
             <!-- Pricing Grid -->
-            <div class="grid md:grid-cols-3 gap-8 items-stretch mb-20">
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-20">
                 <!-- Package 1 -->
-                <div class="border border-slate-200 rounded-3xl p-8 flex flex-col justify-between hover:border-blue-500 transition-all duration-300 bg-white shadow-sm">
+                <div class="border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-blue-500 transition-all duration-300 bg-white shadow-sm">
                     <div>
                         <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Level 01</span>
                         <h4 class="text-xl font-bold text-slate-900 mb-4">Mission Partner</h4>
@@ -538,7 +562,7 @@
                 </div>
 
                 <!-- Package 2 (Highlighted) -->
-                <div class="border-2 border-blue-600 rounded-3xl p-8 flex flex-col justify-between shadow-lg shadow-blue-500/5 relative bg-slate-50/50">
+                <div class="border-2 border-blue-600 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg shadow-blue-500/5 relative bg-slate-50/50">
                     <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
                         Most Needed
                     </div>
@@ -564,7 +588,7 @@
             <!-- ========================================== -->
             <!-- PLEDGE COMMITMENT & DONATION FORM         -->
             <!-- ========================================== -->
-            <div id="donation-form-container" class="max-w-3xl mx-auto bg-slate-50 rounded-3xl border border-slate-200/80 p-8 md:p-12 shadow-sm">
+            <div id="donation-form-container" class="max-w-3xl mx-auto bg-slate-50 rounded-3xl border border-slate-200/80 p-6 sm:p-8 md:p-12 shadow-sm">
                 <div class="text-center mb-10">
                     <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-lg mx-auto mb-4">
                         <i class="fa-solid fa-paper-plane"></i>
@@ -620,10 +644,10 @@
                     <!-- Commitment Type Selection -->
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-2">Commitment Status</label>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid sm:grid-cols-2 gap-4">
                             <label class="border border-slate-200 bg-white p-4 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition">
                                 <input type="radio" name="commitment_type" value="pledge" checked class="w-4 h-4 text-blue-600 focus:ring-blue-500">
-                                <span class="text-sm text-slate-700 font-medium">Faith Pledge (Rencana Iman)</span>
+                                <span class="text-sm text-slate-700 font-medium">Faith Pledge (Planned Commitment)</span>
                             </label>
                             <label class="border border-slate-200 bg-white p-4 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition">
                                 <input type="radio" name="commitment_type" value="paid" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
@@ -681,55 +705,55 @@
     
     
     <!-- ========================================== -->
-    <!-- SECTION 5: CALL TO ACTION & DETAIL REKENING -->
+    <!-- SECTION 5: CALL TO ACTION & BANK DETAILS -->
     <!-- ========================================== -->
-    <section id="donate-cta" class="py-24 bg-slate-900 text-white relative overflow-hidden">
+    <section id="donate-cta" class="section-shell bg-slate-900 text-white relative overflow-hidden">
         <div class="absolute inset-0 bg-blue-600 opacity-5 bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.3),transparent_40%)]"></div>
         
-        <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Mari Menjadi Bagian dari Sejarah</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Become Part of This Mission Story</h2>
                 <p class="text-slate-400 max-w-xl mx-auto text-base">
-                    Salurkan dukungan iman Anda langsung melalui kanal rekening resmi tim aviasi GIDI berikut:
+                    Send your support directly through the official banking channel of the GIDI aviation team:
                 </p>
             </div>
 
             <!-- Info Bank Card -->
-            <div class="bg-slate-800/80 backdrop-blur border border-slate-700 rounded-3xl p-8 max-w-xl mx-auto shadow-2xl mb-12">
-                <div class="flex items-center justify-between border-b border-slate-700 pb-4 mb-6">
-                    <span class="text-sm font-semibold tracking-wider uppercase text-blue-400">Rekening Resmi</span>
+            <div class="bg-slate-800/80 backdrop-blur border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-xl mx-auto shadow-2xl mb-12">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-700 pb-4 mb-6">
+                    <span class="text-sm font-semibold tracking-wider uppercase text-blue-400">Official Account</span>
                     <span class="text-xs bg-slate-700 px-3 py-1 rounded-md text-slate-300">Bank Mandiri</span>
                 </div>
                 
                 <div class="space-y-4">
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase font-medium">Nama Bank</span>
+                        <span class="text-xs text-slate-400 block uppercase font-medium">Bank Name</span>
                         <span class="text-lg font-semibold text-white">Mandiri Kcp Sentani</span>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase font-medium">Nomor Rekening</span>
+                        <span class="text-xs text-slate-400 block uppercase font-medium">Account Number</span>
                         <span class="text-2xl md:text-3xl font-mono font-bold tracking-wider text-blue-400 block my-1">
                             1540 0209 7390 9
                         </span>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase font-medium">Atas Nama</span>
+                        <span class="text-xs text-slate-400 block uppercase font-medium">Account Holder</span>
                         <span class="text-lg font-semibold text-white">PT. Sayap Kasih Injili</span>
                     </div>
                 </div>
             </div>
-
+            <!-- Contact Person Grid -->
             <!-- Kontak Person Grid -->
             <div class="border-t border-slate-800 pt-8 grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto text-center sm:text-left text-sm text-slate-400">
                 <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800/50">
-                    <span class="font-semibold text-white block mb-1">Hubungi Kontak Person:</span>
+                    <span class="font-semibold text-white block mb-1">Primary Contact:</span>
                     <p class="text-base text-slate-300 font-medium">0812 8947 1246</p>
-                    <p class="text-xs text-slate-500 mt-1">Capt. Buce Sub (Ketua Tim Aviasi GIDI)</p>
+                    <p class="text-xs text-slate-500 mt-1">Capt. Buce Sub (GIDI Aviation Team Lead)</p>
                 </div>
                 <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800/50">
-                    <span class="font-semibold text-white block mb-1">Korespondensi Email:</span>
+                    <span class="font-semibold text-white block mb-1">Email Correspondence:</span>
                     <p class="text-base text-slate-300 font-medium">pisitavia@gmail.com</p>
-                    <p class="text-xs text-slate-500 mt-1">Tim Admin Hubungan Aviasi</p>
+                    <p class="text-xs text-slate-500 mt-1">Aviation Relations Admin Team</p>
                 </div>
             </div>
 
@@ -739,13 +763,13 @@
     <!-- ========================================== -->
     <!-- SECTION 5: DONOR TESTIMONIALS & IMPACT     -->
     <!-- ========================================== -->
-    <section id="testimonials" class="py-24 bg-slate-50 border-t border-slate-100">
-        <div class="max-w-6xl mx-auto px-6">
+    <section id="testimonials" class="section-shell bg-slate-50 border-t border-slate-100">
+        <div class="section-container">
             
             <!-- Section Header -->
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Voices of Faith</span>
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight">Partner Testimonials</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Partner Testimonials</h2>
                 <p class="text-slate-500 mt-3">
                     Hear from the church councils, ministries, and individuals who have stepped up to support the new mission aircraft procurement.
                 </p>
@@ -841,7 +865,7 @@
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
                         <p class="text-slate-600 text-sm leading-relaxed italic">
-                            "We continuous pray for the team. Collecting our weekly faith pledges to fund the vital aircraft parts needed."
+                            "We continually pray for the team while collecting weekly faith pledges to fund vital aircraft parts."
                         </p>
                     </div>
                     <div class="mt-6 pt-4 border-t border-slate-100">
