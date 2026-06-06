@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Calibri', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Custom styles from template */
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.section-shell {
+    padding-top: clamp(4rem, 7vw, 6rem);
+    padding-bottom: clamp(4rem, 7vw, 6rem);
+}
+
+.section-container {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+    .section-container {
+        padding-inline: 1.5rem;
+    }
+}
+
+.req-label::after {
+    content: " *";
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* Loading spinner animation */
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+    animation: spin-slow 2s linear infinite;
+}
+
+/* Global pointer cursor for all interactive elements */
+a,
+button,
+label,
+summary,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+select,
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"],
+input[type="date"],
+.cursor-pointer,
+nav a,
+td a,
+td button,
+td form button,
+form.inline,
+form.inline button,
+.flex button,
+.flex a {
+    cursor: pointer;
+}
+
+/* Table rows with actions feel clickable on hover */
+tbody tr:hover {
+    cursor: default;
+}
+tbody tr td a,
+tbody tr td button,
+tbody tr td form,
+tbody tr td form button {
+    cursor: pointer;
+}
