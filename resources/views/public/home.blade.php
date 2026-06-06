@@ -68,7 +68,7 @@
         <div class="my-6 text-center flex flex-col items-center">
             <h2 class="text-3xl md:text-5xl font-black tracking-tight leading-tight drop-shadow-md">Penerbangan Misi GIDI <br class="hidden sm:inline"> (GIDI Mission Aviation)</h2>
             <p class="uppercase text-lg md:text-xl font-bold tracking-wider py-3">PT. Sayap Kasih Injili</p>
-            <p class="text-slate-300 text-base max-w-2xl mx-auto leading-relaxed">Wujud kemandirian Gereja Injili di Indonesia di bidang penerbangan untuk mendukung pelayanan misi gereja di Tanah Papua dan sekitarnya.</p>
+            <p class="text-slate-300 text-base max-w-2xl mx-auto leading-relaxed">Wujud kemandirian Gereja Injili di Indonesia di bidang penerbangan untuk mendukung pelayanan misi gereja di mulai dari Tanah Papua, Indonesia dan Go Internasional bagi Kemuliaan Nama Tuhan.</p>
             <div class="mt-4 max-w-[120px] md:max-w-[150px] transition-transform duration-300 hover:scale-105">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-full h-auto object-contain drop-shadow-sm">
             </div>
