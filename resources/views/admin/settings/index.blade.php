@@ -2,7 +2,7 @@
 @section('title', 'Pengaturan')
 @section('page-title', 'Pengaturan Situs')
 @section('content')
-<div class="flex gap-3 mb-6">
+<div class="flex flex-wrap gap-2 mb-6">
     <a href="{{ route('admin.settings.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Umum</a>
     <a href="{{ route('admin.settings.pages') }}" class="bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-lg text-sm font-medium">Halaman Statis</a>
 </div>
@@ -156,7 +156,7 @@
         </div>
     </div>
     @endforeach
-    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition">Simpan Pengaturan</button>
+    <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition inline-flex items-center justify-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button>
 </form>
 @push('scripts')
 <script>

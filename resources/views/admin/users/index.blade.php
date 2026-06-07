@@ -42,12 +42,14 @@
                                 </select>
                             </form>
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            @if($u->id !== auth()->id())
-                            <form method="POST" action="{{ route('admin.users.destroy', $u) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Pengguna', 'Apakah Anda yakin ingin menghapus pengguna &quot;{{ addslashes($u->name) }}&quot;?')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-600 cursor-pointer"><i class="fa-solid fa-trash"></i></button></form>
-                            @else
-                            <span class="text-xs text-slate-400">(Anda)</span>
-                            @endif
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-end gap-1.5">
+                                @if($u->id !== auth()->id())
+                                <form method="POST" action="{{ route('admin.users.destroy', $u) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Pengguna', 'Apakah Anda yakin ingin menghapus pengguna &quot;{{ addslashes($u->name) }}&quot;?')">@csrf @method('DELETE')<button class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition cursor-pointer" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button></form>
+                                @else
+                                <span class="text-xs text-slate-400">(Anda)</span>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @endforeach

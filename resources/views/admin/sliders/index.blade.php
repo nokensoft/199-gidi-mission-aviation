@@ -2,9 +2,9 @@
 @section('title', 'Slider')
 @section('page-title', 'Manajemen Slider')
 @section('content')
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-6">
     <p class="text-sm text-slate-500">{{ $sliders->total() }} slider</p>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
         @php $sliderTrashCount = \App\Models\Slider::onlyTrashed()->count(); @endphp
         @if($sliderTrashCount > 0)
         <a href="{{ route('admin.sliders.trash') }}" class="text-sm text-red-500 hover:text-red-600 flex items-center gap-1.5 cursor-pointer">
@@ -38,8 +38,8 @@
             <h4 class="font-bold text-slate-900 mb-1">{{ $s->title }}</h4>
             <p class="text-xs text-slate-500 line-clamp-2">{{ $s->description }}</p>
             <div class="flex gap-2 mt-4">
-                <a href="{{ route('admin.sliders.edit', $s) }}" class="text-blue-600 hover:text-blue-700 text-sm"><i class="fa-solid fa-edit"></i> Edit</a>
-                <form method="POST" action="{{ route('admin.sliders.destroy', $s) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Slider', 'Apakah Anda yakin ingin menghapus slider &quot;{{ addslashes($s->title) }}&quot;?')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-600 text-sm cursor-pointer"><i class="fa-solid fa-trash"></i> Hapus</button></form>
+                <a href="{{ route('admin.sliders.edit', $s) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 text-xs font-medium transition"><i class="fa-solid fa-edit"></i> Edit</a>
+                <form method="POST" action="{{ route('admin.sliders.destroy', $s) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Slider', 'Apakah Anda yakin ingin menghapus slider &quot;{{ addslashes($s->title) }}&quot;?')">@csrf @method('DELETE')<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 text-xs font-medium transition cursor-pointer"><i class="fa-solid fa-trash"></i> Hapus</button></form>
             </div>
         </div>
     </div>

@@ -107,6 +107,14 @@
                 @endif
                 @yield('content')
             </main>
+
+            {{-- FOOTER --}}
+            <footer class="bg-white border-t border-slate-200 px-4 sm:px-6 py-3">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-1 text-xs text-slate-400">
+                    <span>&copy; {{ date('Y') }} <span class="font-medium text-slate-500">GIDI Mission Aviation</span>. All rights reserved.</span>
+                    <span>Powered by <a href="https://nokensoft.com" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-500 hover:text-blue-600 transition">Nokensoft</a></span>
+                </div>
+            </footer>
         </div>
     </div>
     {{-- GLOBAL CONFIRM MODAL --}}

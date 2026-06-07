@@ -35,9 +35,11 @@
                         </td>
                         <td class="px-6 py-4 text-slate-500">{{ $cat->slug }}</td>
                         <td class="px-6 py-4 text-slate-500">{{ $cat->posts_count }}</td>
-                        <td class="px-6 py-4 text-right">
-                            <button @click="editing = !editing" class="text-blue-600 hover:text-blue-700 mr-3"><i class="fa-solid fa-edit"></i></button>
-                            <form method="POST" action="{{ route('admin.categories.destroy', $cat) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Kategori', 'Apakah Anda yakin ingin menghapus kategori &quot;{{ addslashes($cat->name) }}&quot;?')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-600 cursor-pointer"><i class="fa-solid fa-trash"></i></button></form>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <button @click="editing = !editing" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Edit"><i class="fa-solid fa-edit text-xs"></i></button>
+                                <form method="POST" action="{{ route('admin.categories.destroy', $cat) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Kategori', 'Apakah Anda yakin ingin menghapus kategori &quot;{{ addslashes($cat->name) }}&quot;?')">@csrf @method('DELETE')<button class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition cursor-pointer" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button></form>
+                            </div>
                         </td>
                     </tr>
                     @empty

@@ -39,9 +39,11 @@
                         <td class="px-6 py-4"><i class="{{ $s->icon }} text-{{ $s->color }}-600 text-lg"></i></td>
                         <td class="px-6 py-4 font-medium text-slate-900">{{ $s->title }}</td>
                         <td class="px-6 py-4 text-slate-500 max-w-xs truncate">{{ Str::limit($s->description, 60) }}</td>
-                        <td class="px-6 py-4 text-right">
-                            <button @click="editService = { id: {{ $s->id }}, title: '{{ addslashes($s->title) }}', description: `{{ addslashes($s->description) }}`, icon: '{{ addslashes($s->icon) }}', color: '{{ $s->color }}', sort_order: {{ $s->sort_order ?? 0 }} }; editModal = true" class="text-blue-600 hover:text-blue-700 mr-3 cursor-pointer"><i class="fa-solid fa-edit"></i></button>
-                            <form method="POST" action="{{ route('admin.services.destroy', $s) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Layanan', 'Apakah Anda yakin ingin menghapus layanan &quot;{{ addslashes($s->title) }}&quot;?')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-600 cursor-pointer"><i class="fa-solid fa-trash"></i></button></form>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <button @click="editService = { id: {{ $s->id }}, title: '{{ addslashes($s->title) }}', description: `{{ addslashes($s->description) }}`, icon: '{{ addslashes($s->icon) }}', color: '{{ $s->color }}', sort_order: {{ $s->sort_order ?? 0 }} }; editModal = true" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition cursor-pointer" title="Edit"><i class="fa-solid fa-edit text-xs"></i></button>
+                                <form method="POST" action="{{ route('admin.services.destroy', $s) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Layanan', 'Apakah Anda yakin ingin menghapus layanan &quot;{{ addslashes($s->title) }}&quot;?')">@csrf @method('DELETE')<button class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition cursor-pointer" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button></form>
+                            </div>
                         </td>
                     </tr>
                     @empty

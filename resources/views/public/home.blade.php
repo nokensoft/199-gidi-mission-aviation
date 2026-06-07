@@ -474,17 +474,23 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-6">
             @foreach($partners as $partner)
-            <div class="p-6 rounded-2xl flex flex-col items-center text-center hover:border-blue-500/30 transition duration-300 group">
+            @if($partner->url)
+            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer"
+               class="p-6 rounded-2xl flex flex-col items-center text-center border border-transparent hover:border-blue-500/30 hover:shadow-sm transition duration-300 group">
+            @else
+            <div class="p-6 rounded-2xl flex flex-col items-center text-center border border-transparent hover:border-blue-500/30 transition duration-300 group">
+            @endif
                 <div class="w-20 h-20 mb-4 flex items-center justify-center p-2 rounded-xl bg-slate-50 group-hover:bg-blue-50/50 transition duration-300">
                     @if($partner->logo)
-                    <img src="{{ asset('images/'.$partner->logo) }}" alt="{{ $partner->name }}" class="w-full h-full object-contain">
+                    <img src="{{ asset('uploads/'.$partner->logo) }}" alt="{{ $partner->name }}" class="w-full h-full object-contain">
                     @else
                     <i class="fa-solid fa-building text-3xl text-slate-300"></i>
                     @endif
                 </div>
                 <h4 class="font-extrabold text-blue-600 text-lg tracking-wide mb-1">{{ $partner->name }}</h4>
                 <p class="text-slate-600 text-sm font-medium leading-relaxed">{{ $partner->full_name }}</p>
-            </div>
+                @if($partner->url)<span class="text-xs text-blue-400 mt-1 flex items-center gap-1"><i class="fa-solid fa-external-link text-[10px]"></i> Kunjungi</span>@endif
+            @if($partner->url)</a>@else</div>@endif
             @endforeach
         </div>
     </div>

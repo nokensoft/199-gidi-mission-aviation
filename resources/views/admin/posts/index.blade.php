@@ -45,9 +45,9 @@
     </div>
 </div>
 
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-6">
     <p class="text-sm text-slate-500">{{ $posts->total() }} artikel</p>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
         @php $postTrashCount = \App\Models\Post::onlyTrashed()->count(); @endphp
         @if($postTrashCount > 0)
         <a href="{{ route('admin.posts.trash') }}" class="text-sm text-red-500 hover:text-red-600 flex items-center gap-1.5 cursor-pointer">
@@ -88,9 +88,11 @@
                     </td>
                     <td class="px-6 py-4 text-slate-500 text-xs">{{ number_format($post->views_count) }}</td>
                     <td class="px-6 py-4 text-slate-500">{{ $post->created_at->format('d/m/Y') }}</td>
-                    <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.posts.edit', $post) }}" class="text-blue-600 hover:text-blue-700 mr-3"><i class="fa-solid fa-edit"></i></a>
-                        <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Artikel', 'Apakah Anda yakin ingin menghapus artikel &quot;{{ addslashes($post->title) }}&quot;?')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-600 cursor-pointer"><i class="fa-solid fa-trash"></i></button></form>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center justify-end gap-1.5">
+                            <a href="{{ route('admin.posts.edit', $post) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Edit"><i class="fa-solid fa-edit text-xs"></i></a>
+                            <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" class="inline" onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Artikel', 'Apakah Anda yakin ingin menghapus artikel &quot;{{ addslashes($post->title) }}&quot;?')">@csrf @method('DELETE')<button class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition cursor-pointer" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button></form>
+                        </div>
                     </td>
                 </tr>
                 @empty

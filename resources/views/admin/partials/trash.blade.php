@@ -45,20 +45,22 @@
                     </td>
                     @endforeach
                     <td class="px-6 py-4 text-slate-400 text-xs">{{ $item->deleted_at->diffForHumans() }}</td>
-                    <td class="px-6 py-4 text-right flex items-center justify-end gap-2">
-                        <form method="POST" action="{{ route($restoreRoute, $item->id) }}" class="inline">
-                            @csrf
-                            <button class="text-emerald-600 hover:text-emerald-700 text-sm cursor-pointer" title="Pulihkan">
-                                <i class="fa-solid fa-rotate-left mr-1"></i> Pulihkan
-                            </button>
-                        </form>
-                        <form method="POST" action="{{ route($forceDeleteRoute, $item->id) }}" class="inline"
-                            onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Permanen', 'Data akan dihapus permanen dan tidak dapat dipulihkan lagi.', 'Hapus Permanen')">
-                            @csrf @method('DELETE')
-                            <button class="text-red-400 hover:text-red-600 text-sm cursor-pointer" title="Hapus Permanen">
-                                <i class="fa-solid fa-trash mr-1"></i> Hapus Permanen
-                            </button>
-                        </form>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center justify-end gap-1.5">
+                            <form method="POST" action="{{ route($restoreRoute, $item->id) }}" class="inline">
+                                @csrf
+                                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-xs font-medium transition cursor-pointer" title="Pulihkan">
+                                    <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route($forceDeleteRoute, $item->id) }}" class="inline"
+                                onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Permanen', 'Data akan dihapus permanen dan tidak dapat dipulihkan lagi.', 'Hapus Permanen')">
+                                @csrf @method('DELETE')
+                                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 text-xs font-medium transition cursor-pointer" title="Hapus Permanen">
+                                    <i class="fa-solid fa-trash"></i> Hapus Permanen
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty
