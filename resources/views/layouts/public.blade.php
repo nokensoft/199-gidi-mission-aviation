@@ -48,7 +48,13 @@
     <div class="bg-white text-slate-600 text-[11px] sm:text-xs relative z-[60] border-b border-slate-200"
         x-data="{
             langOpen: false,
-            currentLang: (() => { var m = document.cookie.match(/googtrans=\/[a-z\-]+\/([^;]+)/i); return m ? m[1] : 'id'; })(),
+            currentLang: (() => {
+                // Deteksi bahasa dari URL proxy Google Translate
+                var trMatch = window.location.search.match(/[?&]_x_tr_tl=([^&]+)/);
+                if (trMatch) return trMatch[1];
+                if (window.location.hostname.indexOf('translate.goog') !== -1) return 'en';
+                return 'id';
+            })(),
             langs: [
                 { code: 'id', label: 'Indonesia', flagImg: 'https://flagcdn.com/w40/id.png' },
                 { code: 'en', label: 'English', flagImg: 'https://flagcdn.com/w40/gb.png' },
@@ -283,42 +289,43 @@
         </div>
     </footer>
 
-    {{-- Google Translate (hidden element) --}}
-    <div id="google_translate_element" aria-hidden="true"></div>
+    {{-- Google Translate via URL redirect --}}
     <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'id',
-                includedLanguages: 'en,zh-CN',
-                autoDisplay: false,
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-
         function translatePage(lang) {
             if (lang === 'id') {
-                // Restore original language
-                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
-                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=' + location.hostname;
-                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.' + location.hostname;
-                location.reload();
+                // Jika sudah di dalam proxy Google Translate, kembali ke halaman asli
+                if (window.location.hostname.indexOf('translate.goog') !== -1) {
+                    var originalUrl = window.location.href
+                        .replace(/\.translate\.goog/, '')
+                        .replace(/[?&]_x_tr_sl=[^&]*/g, '')
+                        .replace(/[?&]_x_tr_tl=[^&]*/g, '')
+                        .replace(/[?&]_x_tr_hl=[^&]*/g, '')
+                        .replace(/[?&]_x_tr_pto=[^&]*/g, '')
+                        .replace(/[?&]_x_tr_hist=[^&]*/g, '');
+                    // Bersihkan trailing ? atau &
+                    originalUrl = originalUrl.replace(/[?&]$/, '');
+                    window.location.href = originalUrl;
+                } else {
+                    window.location.reload();
+                }
                 return;
             }
-
-            var attempts = 0;
-            function tryTranslate() {
-                var sel = document.querySelector('#google_translate_element select');
-                if (sel) {
-                    sel.value = lang;
-                    sel.dispatchEvent(new Event('change'));
-                } else if (attempts++ < 20) {
-                    setTimeout(tryTranslate, 250);
-                }
+            // Redirect ke Google Translate proxy
+            var currentUrl = window.location.href;
+            // Jika sudah di proxy translate, ambil URL asli dulu
+            if (window.location.hostname.indexOf('translate.goog') !== -1) {
+                currentUrl = currentUrl
+                    .replace(/\.translate\.goog/, '')
+                    .replace(/[?&]_x_tr_sl=[^&]*/g, '')
+                    .replace(/[?&]_x_tr_tl=[^&]*/g, '')
+                    .replace(/[?&]_x_tr_hl=[^&]*/g, '')
+                    .replace(/[?&]_x_tr_pto=[^&]*/g, '')
+                    .replace(/[?&]_x_tr_hist=[^&]*/g, '');
+                currentUrl = currentUrl.replace(/[?&]$/, '');
             }
-            tryTranslate();
+            window.location.href = 'https://translate.google.com/translate?sl=id&tl=' + lang + '&u=' + encodeURIComponent(currentUrl);
         }
     </script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     @stack('scripts')
 </body>
