@@ -489,4 +489,28 @@
         </div>
     </div>
 </section>
+{{-- VISITOR COUNTER --}}
+<section class="bg-white border-t border-slate-100 py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-6">Statistik Pengunjung</p>
+        <div class="grid grid-cols-3 divide-x divide-slate-100">
+            <div class="flex flex-col items-center px-4 py-2">
+                <i class="fa-solid fa-users text-blue-400 text-lg mb-2"></i>
+                <span class="text-2xl sm:text-3xl font-extrabold text-slate-800 tabular-nums">{{ number_format($visitorTotal) }}</span>
+                <span class="text-xs text-slate-400 mt-1">Total Pengunjung</span>
+            </div>
+            <div class="flex flex-col items-center px-4 py-2">
+                <i class="fa-solid fa-calendar-day text-blue-400 text-lg mb-2"></i>
+                <span class="text-2xl sm:text-3xl font-extrabold text-slate-800 tabular-nums">{{ number_format($visitorToday) }}</span>
+                <span class="text-xs text-slate-400 mt-1">Hari Ini</span>
+            </div>
+            <div class="flex flex-col items-center px-4 py-2">
+                <i class="fa-solid fa-calendar-week text-blue-400 text-lg mb-2"></i>
+                <span class="text-2xl sm:text-3xl font-extrabold text-slate-800 tabular-nums">{{ number_format($visitorMonth) }}</span>
+                <span class="text-xs text-slate-400 mt-1">Bulan Ini</span>
+            </div>
+        </div>
+    </div>
+</section>
+
 @endsection

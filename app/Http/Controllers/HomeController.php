@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\Slider;
 use App\Models\Testimonial;
+use App\Models\VisitorLog;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,7 +23,15 @@ class HomeController extends Controller
         })->latest()->take(8)->get();
         $partners = Partner::orderBy('sort_order')->get();
 
-        return view('public.home', compact('sliders', 'services', 'testimonials', 'partners'));
+        $visitorTotal  = VisitorLog::count();
+        $visitorToday  = VisitorLog::whereDate('visited_at', today())->count();
+        $visitorMonth  = VisitorLog::whereMonth('visited_at', now()->month)
+                            ->whereYear('visited_at', now()->year)->count();
+
+        return view('public.home', compact(
+            'sliders', 'services', 'testimonials', 'partners',
+            'visitorTotal', 'visitorToday', 'visitorMonth'
+        ));
     }
 
     public function storeDonation(Request $request)
