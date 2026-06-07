@@ -35,9 +35,26 @@
         @endif
         <div class="bg-white rounded-xl p-6 border border-slate-200/60 shadow-sm">
             <h3 class="font-bold text-slate-900 mb-4">Upload Bukti Transfer (Admin)</h3>
-            <form method="POST" action="{{ route('admin.donations.upload-proof', $donation) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.donations.upload-proof', $donation) }}" enctype="multipart/form-data"
+                x-data="dropZone('{{ $donation->admin_proof ? asset('uploads/'.$donation->admin_proof) : '' }}')">
                 @csrf
-                <input type="file" name="admin_proof" accept="image/*,application/pdf" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 mb-3">
+                <div class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200 mb-3"
+                    :class="dragover ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-blue-400'"
+                    @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+                    @drop.prevent="dragover = false; handleDrop($event)">
+                    <input type="file" name="admin_proof" accept="image/*,application/pdf" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" @change="handleFile($event)">
+                    <template x-if="preview">
+                        <img :src="preview" class="mx-auto max-h-40 object-contain rounded-lg mb-2">
+                    </template>
+                    <template x-if="!preview">
+                        <div class="py-4">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-300 mb-2"></i>
+                            <p class="text-sm text-slate-500">Seret gambar ke sini atau <span class="text-blue-600 font-medium">pilih file</span></p>
+                            <p class="text-xs text-slate-400 mt-1">JPG, PNG, PDF (Maks 10MB)</p>
+                        </div>
+                    </template>
+                    <template x-if="fileName"><p class="text-xs text-slate-400 mt-1" x-text="fileName"></p></template>
+                </div>
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium w-full">Upload</button>
             </form>
         </div>
@@ -50,4 +67,33 @@
         @endif
     </div>
 </div>
+@push('scripts')
+<script>
+function dropZone(existing) {
+    return {
+        preview: existing || null, fileName: null, dragover: false,
+        handleFile(e) { this.setPreview(e.target.files[0]); },
+        handleDrop(e) {
+            const file = e.dataTransfer.files[0];
+            if (file && (file.type.startsWith('image/') || file.type === 'application/pdf')) {
+                const input = this.$el.querySelector('input[type=file]');
+                const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+                this.setPreview(file);
+            }
+        },
+        setPreview(file) {
+            if (!file) return;
+            this.fileName = file.name + ' (' + (file.size / 1024 / 1024).toFixed(1) + ' MB)';
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => { this.preview = e.target.result; };
+                reader.readAsDataURL(file);
+            } else {
+                this.preview = null;
+            }
+        }
+    }
+}
+</script>
+@endpush
 @endsection

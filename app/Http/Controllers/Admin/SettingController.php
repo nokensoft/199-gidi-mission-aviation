@@ -11,6 +11,15 @@ use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
+    public function uploadImage(Request $request)
+    {
+        $request->validate(['file' => 'required|image|max:10240']);
+
+        $path = ImageHelper::convertToWebp($request->file('file'), 'editor', 85, 1920);
+
+        return response()->json(['location' => asset('uploads/' . $path)]);
+    }
+
     public function index()
     {
         $settings = SiteSetting::all()->pluck('value', 'key');

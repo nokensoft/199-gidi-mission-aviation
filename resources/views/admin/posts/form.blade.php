@@ -106,6 +106,24 @@ tinymce.init({
     content_style: 'body { font-family: Calibri, sans-serif; font-size: 16px; }',
     branding: false,
     promotion: false,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    images_upload_handler: (blobInfo) => new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+        fetch('{{ route("admin.upload-image") }}', {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: formData
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Upload gagal');
+            return res.json();
+        })
+        .then(data => resolve(data.location))
+        .catch(() => reject('Upload gambar gagal. Pastikan ukuran file tidak melebihi 10MB.'));
+    }),
 });
 </script>
 @endpush

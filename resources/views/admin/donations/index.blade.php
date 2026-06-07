@@ -4,7 +4,9 @@
 
 @section('content')
 <div class="flex items-center justify-between mb-4">
-    <p class="text-sm text-slate-500">Manajemen data donasi</p>
+    <a href="{{ route('admin.donations.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium inline-flex items-center gap-1.5">
+        <i class="fa-solid fa-plus text-xs"></i> Tambah Donasi
+    </a>
     @php $donationTrashCount = \App\Models\Donation::onlyTrashed()->count(); @endphp
     @if($donationTrashCount > 0)
     <a href="{{ route('admin.donations.trash') }}" class="text-sm text-red-500 hover:text-red-600 flex items-center gap-1.5 cursor-pointer">
@@ -45,11 +47,19 @@
                     </td>
                     <td class="px-6 py-4 text-slate-500 text-xs">{{ $d->created_at->format('d/m/Y H:i') }}</td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.donations.show', $d) }}" class="text-blue-600 hover:text-blue-700 mr-2"><i class="fa-solid fa-eye"></i></a>
-                        @if($d->status === 'pending')
-                        <form method="POST" action="{{ route('admin.donations.confirm', $d) }}" class="inline">@csrf<button class="text-emerald-600 hover:text-emerald-700 mr-2" title="Konfirmasi"><i class="fa-solid fa-check"></i></button></form>
-                        <form method="POST" action="{{ route('admin.donations.reject', $d) }}" class="inline">@csrf<button class="text-red-400 hover:text-red-600" title="Tolak"><i class="fa-solid fa-times"></i></button></form>
-                        @endif
+                        <div class="flex items-center justify-end gap-2">
+                            <a href="{{ route('admin.donations.show', $d) }}" class="text-blue-600 hover:text-blue-700" title="Detail"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{{ route('admin.donations.edit', $d) }}" class="text-amber-500 hover:text-amber-600" title="Edit"><i class="fa-solid fa-edit"></i></a>
+                            @if($d->status === 'pending')
+                            <form method="POST" action="{{ route('admin.donations.confirm', $d) }}" class="inline">@csrf<button class="text-emerald-600 hover:text-emerald-700" title="Konfirmasi"><i class="fa-solid fa-check"></i></button></form>
+                            <form method="POST" action="{{ route('admin.donations.reject', $d) }}" class="inline">@csrf<button class="text-red-400 hover:text-red-600" title="Tolak"><i class="fa-solid fa-times"></i></button></form>
+                            @endif
+                            <form method="POST" action="{{ route('admin.donations.destroy', $d) }}" class="inline"
+                                onsubmit="event.preventDefault(); confirmDelete(this, 'Hapus Donasi', 'Apakah Anda yakin ingin menghapus donasi dari &quot;{{ addslashes($d->donor_name) }}&quot;?')">
+                                @csrf @method('DELETE')
+                                <button class="text-red-400 hover:text-red-600" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

@@ -63,7 +63,11 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
         Route::get('donations', [DonationController::class, 'index'])->name('donations.index');
+        Route::get('donations/create', [DonationController::class, 'create'])->name('donations.create');
+        Route::post('donations', [DonationController::class, 'store'])->name('donations.store');
         Route::get('donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
+        Route::get('donations/{donation}/edit', [DonationController::class, 'edit'])->name('donations.edit');
+        Route::put('donations/{donation}', [DonationController::class, 'update'])->name('donations.update');
         Route::post('donations/{donation}/confirm', [DonationController::class, 'confirm'])->name('donations.confirm');
         Route::post('donations/{donation}/reject', [DonationController::class, 'reject'])->name('donations.reject');
         Route::post('donations/{donation}/upload-proof', [DonationController::class, 'uploadProof'])->name('donations.upload-proof');
@@ -83,6 +87,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::post('partners', [PartnerController::class, 'store'])->name('partners.store');
         Route::put('partners/{partner}', [PartnerController::class, 'update'])->name('partners.update');
         Route::delete('partners/{partner}', [PartnerController::class, 'destroy'])->name('partners.destroy');
+        Route::post('upload-image', [SettingController::class, 'uploadImage'])->name('upload-image');
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('settings/pages', [SettingController::class, 'pages'])->name('settings.pages');
