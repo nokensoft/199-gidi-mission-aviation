@@ -9,7 +9,7 @@
 @push('seo')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": "Article",
     "headline": "{{ $post->title }}",
     "description": "{{ Str::limit(strip_tags($post->excerpt ?: $post->content), 160) }}",
