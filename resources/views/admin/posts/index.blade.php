@@ -3,6 +3,48 @@
 @section('page-title', 'Manajemen Blog')
 
 @section('content')
+{{-- Rekap Data --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-xl p-4 border border-slate-200/60 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-newspaper"></i></div>
+            <div>
+                <p class="text-2xl font-bold text-slate-900">{{ $totalPosts }}</p>
+                <p class="text-xs text-slate-400">Total Artikel</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-slate-200/60 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-tags"></i></div>
+            <div>
+                <p class="text-2xl font-bold text-slate-900">{{ $totalCategories }}</p>
+                <p class="text-xs text-slate-400">Total Kategori</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-slate-200/60 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-eye"></i></div>
+            <div>
+                <p class="text-2xl font-bold text-slate-900">{{ number_format($totalViews) }}</p>
+                <p class="text-xs text-slate-400">Total Pembaca</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-slate-200/60 shadow-sm">
+        <p class="text-xs font-semibold text-slate-500 mb-2">Artikel per Kategori</p>
+        <div class="space-y-1.5 max-h-20 overflow-y-auto">
+            @foreach($categoryCounts as $cat)
+            <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-600">{{ $cat->name }}</span>
+                <span class="font-bold text-slate-900">{{ $cat->posts_count }}</span>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
 <div class="flex items-center justify-between mb-6">
     <p class="text-sm text-slate-500">{{ $posts->total() }} artikel</p>
     <div class="flex items-center gap-3">
@@ -23,6 +65,7 @@
                 <th class="text-left px-6 py-3 font-semibold text-slate-600">Judul</th>
                 <th class="text-left px-6 py-3 font-semibold text-slate-600">Kategori</th>
                 <th class="text-left px-6 py-3 font-semibold text-slate-600">Status</th>
+                <th class="text-left px-6 py-3 font-semibold text-slate-600"><i class="fa-solid fa-eye text-xs mr-1"></i> Dibaca</th>
                 <th class="text-left px-6 py-3 font-semibold text-slate-600">Tanggal</th>
                 <th class="text-right px-6 py-3 font-semibold text-slate-600">Aksi</th>
             </tr></thead>
@@ -43,6 +86,7 @@
                     <td class="px-6 py-4">
                         <span class="text-xs px-2 py-1 rounded-full font-medium {{ $post->is_published ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500' }}">{{ $post->is_published ? 'Terbit' : 'Draf' }}</span>
                     </td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">{{ number_format($post->views_count) }}</td>
                     <td class="px-6 py-4 text-slate-500">{{ $post->created_at->format('d/m/Y') }}</td>
                     <td class="px-6 py-4 text-right">
                         <a href="{{ route('admin.posts.edit', $post) }}" class="text-blue-600 hover:text-blue-700 mr-3"><i class="fa-solid fa-edit"></i></a>
@@ -50,7 +94,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="6" class="px-6 py-10 text-center text-slate-400">Belum ada artikel.</td></tr>
+                <tr><td colspan="7" class="px-6 py-10 text-center text-slate-400">Belum ada artikel.</td></tr>
                 @endforelse
             </tbody>
         </table>

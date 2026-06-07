@@ -77,7 +77,7 @@
                     <p class="text-slate-500 text-sm line-clamp-3 mb-4">{{ $post->excerpt }}</p>
                     <div class="flex items-center justify-between text-xs text-slate-400">
                         <span>{{ $post->published_at?->translatedFormat('d M Y') }}</span>
-                        <span>{{ $post->user?->name }}</span>
+                        <span><i class="fa-solid fa-eye mr-1"></i> {{ number_format($post->views_count) }}x dibaca</span>
                     </div>
                 </div>
             </article>

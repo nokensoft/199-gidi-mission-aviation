@@ -70,8 +70,10 @@ class BlogController extends Controller
     {
         $post = Post::published()
             ->where('slug', $slug)
-            ->with(['categories', 'user'])
+            ->with(['categories'])
             ->firstOrFail();
+
+        $post->increment('views_count');
 
         $relatedPosts = Post::published()
             ->whereHas('categories', function ($q) use ($post) {

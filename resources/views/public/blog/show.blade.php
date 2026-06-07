@@ -24,7 +24,7 @@
         <div class="flex items-center justify-between flex-wrap gap-4 text-sm text-slate-400 mb-10 pb-6 border-b border-slate-100">
             <div class="flex items-center gap-4">
                 <span><i class="fa-solid fa-calendar mr-1"></i> {{ $post->published_at?->translatedFormat('d F Y') }}</span>
-                <span><i class="fa-solid fa-user mr-1"></i> {{ $post->user?->name }}</span>
+                <span><i class="fa-solid fa-eye mr-1"></i> {{ number_format($post->views_count) }}x dibaca</span>
             </div>
             @php $shareUrl = url()->current(); $shareTitle = $post->title; @endphp
             <div class="flex items-center gap-2" x-data="{ copied: false }">

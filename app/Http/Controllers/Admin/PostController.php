@@ -14,7 +14,12 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with(['categories', 'user'])->latest()->paginate(15);
-        return view('admin.posts.index', compact('posts'));
+        $totalPosts = Post::count();
+        $totalCategories = Category::count();
+        $categoryCounts = Category::withCount('posts')->orderByDesc('posts_count')->get();
+        $totalViews = Post::sum('views_count');
+
+        return view('admin.posts.index', compact('posts', 'totalPosts', 'totalCategories', 'categoryCounts', 'totalViews'));
     }
 
     public function create()
