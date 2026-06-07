@@ -152,6 +152,22 @@
                 <span class="text-slate-700 text-xs hidden sm:inline">|</span>
                 <a href="{{ route('blog.index') }}" class="text-xs sm:text-sm hover:text-sky-400 transition-colors">Blog</a>
             </div>
+            @auth
+                <div class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8">
+                    <i class="fa fa-user-circle text-sky-400"></i>
+                    <span>{{ Auth::user()->name }}</span>
+                    <span class="text-slate-700">|</span>
+                    <a href="{{ route('admin.dashboard') }}" class="hover:text-sky-400 transition-colors flex items-center gap-1">
+                        <i class="fa fa-tachometer-alt text-[10px]"></i> Dashboard
+                    </a>
+                </div>
+            @else
+                <div class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8">
+                    <a href="{{ route('login') }}" class="hover:text-sky-400 transition-colors flex items-center gap-1">
+                        <i class="fa fa-sign-in-alt text-[10px]"></i> Login
+                    </a>
+                </div>
+            @endauth
             <div class="w-16 border-t border-slate-800 mb-8"></div>
             <div class="text-xs text-slate-500 space-y-1">
                 <p>&copy; {{ date('Y') }} GIDI Mission Aviation. All Rights Reserved.</p>

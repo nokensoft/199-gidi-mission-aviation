@@ -95,6 +95,17 @@
 - Tidak bisa mengakses menu admin (blog, donasi, testimoni, pengaturan, dll)
 - Middleware restriction per route group
 
+## Fase 5: Polish & Enhancement
+
+- **SEO Optimization** — Meta tags (Open Graph, Twitter Card), canonical URL, robots meta di setiap halaman publik
+- **Social Media Sharing** — Tombol share ke Facebook, Twitter/X, WhatsApp, Telegram, dan copy link di halaman blog
+- **Jumlah Pembaca Blog** — Counter views per artikel dengan increment otomatis saat dikunjungi
+- **Visitor Counter di Beranda** — Menampilkan total pengunjung website di homepage
+- **Error Pages** — Halaman error kustom (401, 403, 404, 419, 429, 500, 503) dengan desain konsisten
+- **TinyMCE CSS Fix** — Perbaikan styling konten TinyMCE di halaman publik dan blog agar tampil konsisten
+- **Footer Login/Dashboard** — Link login di footer untuk pengunjung, link Dashboard + nama user untuk yang sudah login
+- **Admin Donasi** — Form tambah donasi manual oleh admin dengan upload bukti transfer
+
 ---
 
 ## Instalasi (Development)
@@ -328,9 +339,14 @@ Semua konten berikut dari `_template/index.html` telah di-seed ke database:
 - **Soft Delete** — Tempat sampah di 6 module (blog, donasi, testimoni, slider, layanan, mitra) dengan pulihkan & hapus permanen
 - **Custom Modal** — Konfirmasi hapus menggunakan modal Tailwind + Alpine.js
 - **Loading Screen** — Animasi spin logo saat halaman dimuat
-- **Visitor Counter** — Grafik pengunjung harian/mingguan/bulanan/tahunan via Chart.js
+- **Visitor Counter** — Grafik pengunjung harian/mingguan/bulanan/tahunan via Chart.js + counter di beranda
 - **Responsive** — Semua halaman (visitor + admin) dioptimasi untuk mobile, tablet, dan desktop
 - **Dynamic Logo/Favicon** — Logo dan favicon situs bisa diubah dari admin pengaturan
+- **SEO** — Meta tags lengkap (Open Graph, Twitter Card, canonical URL) di semua halaman publik
+- **Social Sharing** — Tombol share artikel ke media sosial (Facebook, X, WhatsApp, Telegram)
+- **Blog View Counter** — Jumlah pembaca per artikel blog
+- **Error Pages** — Halaman error kustom (401, 403, 404, 419, 429, 500, 503)
+- **Footer Auth Link** — Link login/dashboard di footer berdasarkan status autentikasi user
 
 ---
 
