@@ -44,6 +44,59 @@
 </head>
 <body class="bg-slate-50 text-slate-800">
 
+    {{-- TOPBAR: CTA Donasi + Translate --}}
+    <div class="bg-white text-slate-600 text-[11px] sm:text-xs relative z-[60] border-b border-slate-200"
+        x-data="{
+            langOpen: false,
+            currentLang: (() => { var m = document.cookie.match(/googtrans=\/[a-z\-]+\/([^;]+)/i); return m ? m[1] : 'id'; })(),
+            langs: [
+                { code: 'id', label: 'Indonesia', flagImg: 'https://flagcdn.com/w40/id.png' },
+                { code: 'en', label: 'English', flagImg: 'https://flagcdn.com/w40/gb.png' },
+                { code: 'zh-CN', label: '中文', flagImg: 'https://flagcdn.com/w40/cn.png' }
+            ],
+            get currentFlagImg() { return this.langs.find(l => l.code === this.currentLang)?.flagImg || ''; },
+            get currentLabel() { return this.langs.find(l => l.code === this.currentLang)?.label || 'Bahasa'; }
+        }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-8 sm:h-9">
+                {{-- Left: Fundraising CTA --}}
+                    <a href="{{ route('home') }}#penggalangan-dana"
+                    class="flex items-center gap-1.5 hover:text-slate-900 transition-colors group truncate mr-4">
+                    <i class="fa fa-heart text-red-500 group-hover:text-red-600 text-[10px]"></i>
+                    <span class="hidden sm:inline">Dukung Penerbangan Misi Papua &mdash;</span>
+                    <span class="font-semibold text-blue-600 group-hover:text-blue-700 underline underline-offset-2">Donasi Sekarang</span>
+                </a>
+                {{-- Right: Language Dropdown --}}
+                <div class="relative shrink-0 notranslate" @click.outside="langOpen = false">
+                    <button @click="langOpen = !langOpen" type="button"
+                        class="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-slate-100 transition-colors text-slate-600 hover:text-slate-900">
+                        <img :src="currentFlagImg" class="w-4 h-3 object-cover rounded-sm" :alt="currentLabel">
+                        <span x-text="currentLabel"></span>
+                        <svg class="w-3 h-3 transition-transform duration-200" :class="langOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+                    <div x-show="langOpen"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-100"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-y-1"
+                        style="display:none;"
+                        class="absolute right-0 top-full mt-1 w-40 bg-white border border-slate-200 rounded-lg shadow-xl py-1 z-[70]">
+                        <template x-for="lang in langs" :key="lang.code">
+                            <button @click="translatePage(lang.code); currentLang = lang.code; langOpen = false;" type="button"
+                                class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center gap-2"
+                                :class="currentLang === lang.code ? 'bg-blue-50 text-blue-600 font-semibold' : ''">
+                                <img :src="lang.flagImg" class="w-5 h-3.5 object-cover rounded-sm" :alt="lang.label">
+                                <span x-text="lang.label"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- LOADING SCREEN --}}
     <div id="page-loader" class="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-500">
         <div class="flex flex-col items-center">
@@ -229,6 +282,43 @@
             </div>
         </div>
     </footer>
+
+    {{-- Google Translate (hidden element) --}}
+    <div id="google_translate_element" aria-hidden="true"></div>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'id',
+                includedLanguages: 'en,zh-CN',
+                autoDisplay: false,
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+
+        function translatePage(lang) {
+            if (lang === 'id') {
+                // Restore original language
+                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
+                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=' + location.hostname;
+                document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.' + location.hostname;
+                location.reload();
+                return;
+            }
+
+            var attempts = 0;
+            function tryTranslate() {
+                var sel = document.querySelector('#google_translate_element select');
+                if (sel) {
+                    sel.value = lang;
+                    sel.dispatchEvent(new Event('change'));
+                } else if (attempts++ < 20) {
+                    setTimeout(tryTranslate, 250);
+                }
+            }
+            tryTranslate();
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     @stack('scripts')
 </body>
