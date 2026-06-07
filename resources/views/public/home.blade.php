@@ -182,7 +182,7 @@
 </section>
 
 {{-- INFO PESAWAT & PAKET --}}
-<section class="section-shell bg-white">
+<section id="armada-pesawat" class="section-shell bg-white">
     <div class="section-container">
         <div class="text-center max-w-3xl mx-auto mb-12">
             <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Armada Pesawat</span>
@@ -203,7 +203,7 @@
             </div>
         </div>
 
-        <div class="text-center max-w-2xl mx-auto mb-12">
+        <div id="pilihan-kemitraan" class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Paket Kemitraan</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-slate-900">Pilihan Paket Penggalangan Dana</h3>
             <p class="text-slate-500 mt-3">Bergabunglah sebagai mitra misi melalui berbagai pilihan nominal yang tersedia.</p>
@@ -224,7 +224,7 @@
 </section>
 
 {{-- INFO REKENING --}}
-<section class="section-shell bg-slate-900 text-white relative overflow-hidden">
+<section id="informasi-rekening" class="section-shell bg-slate-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 bg-blue-600 opacity-5 bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.3),transparent_40%)]"></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="text-center mb-12">
@@ -259,7 +259,7 @@
 </section>
 
 {{-- FORMULIR DONASI --}}
-<section class="section-shell bg-white">
+<section id="formulir-donasi" class="section-shell bg-white">
     <div class="section-container">
         <div id="donation-form-container" x-data="{ package: '', commitmentType: 'pledge', paymentMethod: 'transfer', testimoType: 'public' }" class="max-w-3xl mx-auto bg-slate-50 rounded-3xl border border-slate-200/80 p-6 sm:p-8 md:p-12 shadow-sm">
             <div class="text-center mb-10">

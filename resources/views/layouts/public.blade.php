@@ -71,11 +71,11 @@
         $normalClass = 'text-slate-700 hover:text-blue-600 transition-colors';
     @endphp
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-md"
-        x-data="{ mobileMenuOpen: false }">
+        x-data="{ mobileMenuOpen: false, dropTentang: false, dropDana: false, mDropTentang: false, mDropDana: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:h-20">
 
-                {{-- LEFT: Logo (besar, melampaui border bawah) + Title + Tagline --}}
+                {{-- LEFT: Logo + Title + Tagline --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-3 relative z-10 shrink-0">
                     <div class="relative w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 -mb-4 md:-mb-6 lg:-mb-8">
                         <img src="{{ $logoUrl }}" alt="Logo GIDI Mission Aviation" class="w-full h-full object-contain drop-shadow-md">
@@ -86,11 +86,39 @@
                     </div>
                 </a>
 
-                {{-- CENTER: Desktop Navigation (UPPERCASE + Active) --}}
+                {{-- CENTER: Desktop Navigation --}}
                 <div class="hidden md:flex items-center gap-6 lg:gap-8 text-xs lg:text-sm font-bold tracking-widest uppercase">
                     <a href="{{ route('home') }}" class="{{ $isHome && !request()->is('blog*') ? $activeClass : $normalClass }}">BERANDA</a>
-                    <a href="{{ route('home') }}#tentang-kami" class="{{ $normalClass }}">TENTANG KAMI</a>
-                    <a href="{{ route('home') }}#yang-kami-lakukan" class="{{ $normalClass }}">LAYANAN</a>
+
+                    {{-- Tentang Kami Dropdown --}}
+                    <div class="relative" @mouseenter="dropTentang = true" @mouseleave="dropTentang = false">
+                        <button type="button" @click="dropTentang = !dropTentang" class="flex items-center gap-1 {{ $normalClass }} focus:outline-none">
+                            TENTANG KAMI
+                            <svg class="w-3 h-3 transition-transform duration-200" :class="dropTentang ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                        </button>
+                        <div x-show="dropTentang" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1" style="display:none;"
+                            class="absolute left-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50">
+                            <a href="{{ route('home') }}#tentang-kami" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">TENTANG KAMI</a>
+                            <a href="{{ route('home') }}#yang-kami-lakukan" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">YANG KAMI LAKUKAN</a>
+                        </div>
+                    </div>
+
+                    {{-- Penggalangan Dana Dropdown --}}
+                    <div class="relative" @mouseenter="dropDana = true" @mouseleave="dropDana = false">
+                        <button type="button" @click="dropDana = !dropDana" class="flex items-center gap-1 {{ $normalClass }} focus:outline-none">
+                            PENGGALANGAN DANA
+                            <svg class="w-3 h-3 transition-transform duration-200" :class="dropDana ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                        </button>
+                        <div x-show="dropDana" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1" style="display:none;"
+                            class="absolute left-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50">
+                            <a href="{{ route('home') }}#presiden-gidi" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">PERNYATAAN PRESIDEN GIDI</a>
+                            <a href="{{ route('home') }}#armada-pesawat" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">ARMADA PESAWAT</a>
+                            <a href="{{ route('home') }}#pilihan-kemitraan" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">PILIHAN KEMITRAAN</a>
+                            <a href="{{ route('home') }}#informasi-rekening" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">INFORMASI REKENING</a>
+                            <a href="{{ route('home') }}#formulir-donasi" class="block px-4 py-2.5 text-xs font-bold tracking-wider text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">FORMULIR</a>
+                        </div>
+                    </div>
+
                     <a href="{{ route('blog.index') }}" class="{{ $isBlog ? $activeClass : $normalClass }}">BLOG</a>
                     <a href="{{ route('home') }}#kontak" class="{{ $normalClass }}">KONTAK</a>
                 </div>
@@ -114,8 +142,34 @@
         <div x-show="mobileMenuOpen" x-transition style="display:none;" class="md:hidden border-t border-slate-100 bg-slate-50 shadow-inner">
             <div class="px-6 py-4 space-y-1 font-bold text-slate-700 text-sm uppercase tracking-wider">
                 <a href="{{ route('home') }}" @click="mobileMenuOpen=false" class="block py-3 border-b border-slate-200/60 {{ $isHome ? 'text-blue-600' : 'hover:text-blue-600' }}">BERANDA</a>
-                <a href="{{ route('home') }}#tentang-kami" @click="mobileMenuOpen=false" class="block py-3 border-b border-slate-200/60 hover:text-blue-600">TENTANG KAMI</a>
-                <a href="{{ route('home') }}#yang-kami-lakukan" @click="mobileMenuOpen=false" class="block py-3 border-b border-slate-200/60 hover:text-blue-600">LAYANAN</a>
+
+                {{-- Mobile: Tentang Kami Accordion --}}
+                <div class="border-b border-slate-200/60">
+                    <button type="button" @click="mDropTentang = !mDropTentang" class="w-full flex items-center justify-between py-3 hover:text-blue-600 transition-colors focus:outline-none">
+                        <span>TENTANG KAMI</span>
+                        <svg class="w-4 h-4 transition-transform duration-200" :class="mDropTentang ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+                    <div x-show="mDropTentang" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-40" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" style="display:none;" class="pl-4 pb-3 space-y-1 overflow-hidden">
+                        <a href="{{ route('home') }}#tentang-kami" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">TENTANG KAMI</a>
+                        <a href="{{ route('home') }}#yang-kami-lakukan" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">YANG KAMI LAKUKAN</a>
+                    </div>
+                </div>
+
+                {{-- Mobile: Penggalangan Dana Accordion --}}
+                <div class="border-b border-slate-200/60">
+                    <button type="button" @click="mDropDana = !mDropDana" class="w-full flex items-center justify-between py-3 hover:text-blue-600 transition-colors focus:outline-none">
+                        <span>PENGGALANGAN DANA</span>
+                        <svg class="w-4 h-4 transition-transform duration-200" :class="mDropDana ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+                    <div x-show="mDropDana" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" style="display:none;" class="pl-4 pb-3 space-y-1 overflow-hidden">
+                        <a href="{{ route('home') }}#presiden-gidi" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">PERNYATAAN PRESIDEN GIDI</a>
+                        <a href="{{ route('home') }}#armada-pesawat" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">ARMADA PESAWAT</a>
+                        <a href="{{ route('home') }}#pilihan-kemitraan" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">PILIHAN KEMITRAAN</a>
+                        <a href="{{ route('home') }}#informasi-rekening" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">INFORMASI REKENING</a>
+                        <a href="{{ route('home') }}#formulir-donasi" @click="mobileMenuOpen=false" class="block py-2 text-xs tracking-wider text-slate-500 hover:text-blue-600 transition-colors">FORMULIR</a>
+                    </div>
+                </div>
+
                 <a href="{{ route('blog.index') }}" @click="mobileMenuOpen=false" class="block py-3 border-b border-slate-200/60 {{ $isBlog ? 'text-blue-600' : 'hover:text-blue-600' }}">BLOG</a>
                 <a href="{{ route('home') }}#kontak" @click="mobileMenuOpen=false" class="block py-3 border-b border-slate-200/60 hover:text-blue-600">KONTAK</a>
                 <div class="pt-3">
