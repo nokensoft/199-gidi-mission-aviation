@@ -57,8 +57,7 @@
             })(),
             langs: [
                 { code: 'id', label: 'Indonesia', flagImg: 'https://flagcdn.com/w40/id.png' },
-                { code: 'en', label: 'English', flagImg: 'https://flagcdn.com/w40/gb.png' },
-                { code: 'zh-CN', label: '中文', flagImg: 'https://flagcdn.com/w40/cn.png' }
+                { code: 'en', label: 'English', flagImg: 'https://flagcdn.com/w40/gb.png' }
             ],
             get currentFlagImg() { return this.langs.find(l => l.code === this.currentLang)?.flagImg || ''; },
             get currentLabel() { return this.langs.find(l => l.code === this.currentLang)?.label || 'Bahasa'; }
