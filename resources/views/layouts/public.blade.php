@@ -54,9 +54,9 @@
                     <div class="relative w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 -mb-4 md:-mb-6 lg:-mb-8">
                         <img src="{{ $logoUrl }}" alt="Logo GIDI Mission Aviation" class="w-full h-full object-contain drop-shadow-md">
                     </div>
-                    <div class="hidden sm:block">
-                        <span class="font-bold text-lg md:text-xl lg:text-2xl tracking-tight text-slate-900 block leading-tight">GIDI Mission Aviation</span>
-                        <span class="text-blue-600 font-semibold text-xs md:text-sm tracking-wide block -mt-0.5">"Be The Light"</span>
+                    <div>
+                        <span class="font-bold text-sm sm:text-lg md:text-xl lg:text-2xl tracking-tight text-slate-900 block leading-tight">GIDI Mission Aviation</span>
+                        <span class="text-blue-600 font-semibold text-[10px] sm:text-xs md:text-sm tracking-wide block -mt-0.5">"Be The Light"</span>
                     </div>
                 </a>
 

@@ -51,6 +51,25 @@ class SettingController extends Controller
             SiteSetting::set('site_favicon', $path, 'image');
         }
 
+        // Handle contact photo uploads & deletion
+        foreach ([1, 2] as $i) {
+            if ($request->input("delete_contact_photo_{$i}") === '1' && !$request->hasFile("contact_photo_{$i}")) {
+                $oldPath = SiteSetting::get("contact_photo_{$i}");
+                if ($oldPath && file_exists(public_path('uploads/' . $oldPath))) {
+                    unlink(public_path('uploads/' . $oldPath));
+                }
+                SiteSetting::set("contact_photo_{$i}", '', 'image');
+            } elseif ($request->hasFile("contact_photo_{$i}")) {
+                $request->validate(["contact_photo_{$i}" => 'image|max:5120']);
+                $oldPath = SiteSetting::get("contact_photo_{$i}");
+                if ($oldPath && file_exists(public_path('uploads/' . $oldPath))) {
+                    unlink(public_path('uploads/' . $oldPath));
+                }
+                $path = ImageHelper::convertToWebp($request->file("contact_photo_{$i}"), 'contacts', 90, 300);
+                SiteSetting::set("contact_photo_{$i}", $path, 'image');
+            }
+        }
+
         return back()->with('success', 'Pengaturan berhasil disimpan.');
     }
 

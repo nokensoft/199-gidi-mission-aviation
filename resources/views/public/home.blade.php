@@ -347,26 +347,45 @@
             <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Kontak</h2>
             <p class="text-slate-400 max-w-xl mx-auto text-base">Hubungi tim kami untuk konsultasi, informasi lebih lanjut, atau peluang kerja sama dalam pelayanan misi penerbangan.</p>
         </div>
-        <div class="border-t border-slate-800 pt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto text-left text-sm text-slate-400 mb-12">
+        @php
+            $contact1HasData = $s('contact_name_1') || $s('contact_title_1') || $s('contact_phone_1') || $s('contact_photo_1');
+            $contact2HasData = $s('contact_name_2') || $s('contact_title_2') || $s('contact_phone_2') || $s('contact_photo_2');
+            $hasAnyContact = $contact1HasData || $contact2HasData;
+        @endphp
+        <div class="border-t border-slate-800 pt-12 grid grid-cols-1 {{ $hasAnyContact ? 'lg:grid-cols-2' : '' }} gap-8 lg:gap-12 max-w-6xl mx-auto text-left text-sm text-slate-400 mb-12">
+            @if($hasAnyContact)
             <div class="space-y-4">
                 <span class="text-xs font-bold tracking-wider uppercase text-blue-400 block mb-2">Hubungi Tim Kami</span>
+                @if($contact1HasData)
                 <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800/50 flex items-center gap-4 hover:border-slate-700 transition">
-                    <img src="{{ asset('images/Capt. Buce Sub.jpg') }}" alt="Foto" class="w-16 h-16 rounded-full object-cover border-2 border-slate-700 shrink-0">
+                    @if($s('contact_photo_1'))
+                    <img src="{{ asset('uploads/'.$s('contact_photo_1')) }}" alt="Foto" class="w-16 h-16 rounded-full object-cover border-2 border-slate-700 shrink-0">
+                    @else
+                    <div class="w-16 h-16 rounded-full bg-slate-700 border-2 border-slate-600 shrink-0 flex items-center justify-center"><i class="fa-solid fa-user text-slate-400 text-xl"></i></div>
+                    @endif
                     <div>
                         <span class="text-xs text-slate-400">{{ $s('contact_title_1') }}</span>
                         <p class="text-base text-slate-200 font-bold tracking-wide">{{ $s('contact_phone_1') }}</p>
                         <p class="text-xs text-slate-400 mt-0.5">{{ $s('contact_name_1') }}</p>
                     </div>
                 </div>
+                @endif
+                @if($contact2HasData)
                 <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800/50 flex items-center gap-4 hover:border-slate-700 transition">
-                    <img src="{{ asset('images/Capt. Yotam Pahabol.jpg') }}" alt="Foto" class="w-16 h-16 rounded-full object-cover border-2 border-slate-700 shrink-0">
+                    @if($s('contact_photo_2'))
+                    <img src="{{ asset('uploads/'.$s('contact_photo_2')) }}" alt="Foto" class="w-16 h-16 rounded-full object-cover border-2 border-slate-700 shrink-0">
+                    @else
+                    <div class="w-16 h-16 rounded-full bg-slate-700 border-2 border-slate-600 shrink-0 flex items-center justify-center"><i class="fa-solid fa-user text-slate-400 text-xl"></i></div>
+                    @endif
                     <div>
                         <span class="text-xs text-slate-400">{{ $s('contact_title_2') }}</span>
                         <p class="text-base text-slate-200 font-bold tracking-wide">{{ $s('contact_phone_2') }}</p>
                         <p class="text-xs text-slate-400 mt-0.5">{{ $s('contact_name_2') }}</p>
                     </div>
                 </div>
+                @endif
             </div>
+            @endif
             <div class="bg-slate-800/20 border border-slate-800/40 p-6 md:p-8 rounded-2xl flex flex-col justify-between gap-6">
                 <div>
                     <span class="text-xs font-bold tracking-wider uppercase text-blue-400 block mb-4">Informasi Kantor & Layanan</span>
