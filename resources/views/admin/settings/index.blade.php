@@ -138,7 +138,7 @@
         'Kantor' => ['office_address' => 'Alamat', 'office_email' => 'Email'],
         'Rekening Bank' => ['bank_name' => 'Nama Bank', 'bank_account' => 'Nomor Rekening', 'bank_holder' => 'Atas Nama'],
         'Media Sosial' => ['facebook_url' => 'Facebook', 'instagram_url' => 'Instagram', 'youtube_url' => 'YouTube'],
-        'Presiden GIDI' => ['president_name' => 'Nama', 'president_title' => 'Jabatan', 'president_quote' => 'Kutipan'],
+        'Kutipan Pimpinan' => ['president_name' => 'Nama', 'president_title' => 'Jabatan', 'president_quote' => 'Kutipan'],
     ] as $section => $fields)
     <div class="bg-white rounded-xl p-6 border border-slate-200/60 shadow-sm">
         <h3 class="font-bold text-slate-900 mb-4">{{ $section }}</h3>

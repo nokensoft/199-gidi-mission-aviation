@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -84,6 +85,21 @@ class SettingController extends Controller
         return view('admin.settings.edit-page', compact('page'));
     }
 
+    public function storePage(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:pages,slug',
+            'content' => 'nullable|string',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['slug']);
+
+        Page::create($validated);
+
+        return redirect()->route('admin.settings.pages')->with('success', 'Halaman berhasil dibuat.');
+    }
+
     public function updatePage(Request $request, Page $page)
     {
         $validated = $request->validate([
@@ -94,5 +110,29 @@ class SettingController extends Controller
         $page->update($validated);
 
         return redirect()->route('admin.settings.pages')->with('success', 'Halaman berhasil diperbarui.');
+    }
+
+    public function destroyPage(Page $page)
+    {
+        $page->delete();
+        return redirect()->route('admin.settings.pages')->with('success', 'Halaman dipindahkan ke tempat sampah.');
+    }
+
+    public function trashPages()
+    {
+        $pages = Page::onlyTrashed()->latest('deleted_at')->paginate(15);
+        return view('admin.settings.pages-trash', compact('pages'));
+    }
+
+    public function restorePage(int $id)
+    {
+        Page::onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->route('admin.settings.pages.trash')->with('success', 'Halaman berhasil dipulihkan.');
+    }
+
+    public function forceDeletePage(int $id)
+    {
+        Page::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('admin.settings.pages.trash')->with('success', 'Halaman dihapus permanen.');
     }
 }

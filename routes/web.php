@@ -86,8 +86,13 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('settings/pages', [SettingController::class, 'pages'])->name('settings.pages');
+        Route::post('settings/pages', [SettingController::class, 'storePage'])->name('settings.pages.store');
+        Route::get('settings/pages/trash', [SettingController::class, 'trashPages'])->name('settings.pages.trash');
+        Route::post('settings/pages/{id}/restore', [SettingController::class, 'restorePage'])->name('settings.pages.restore');
+        Route::delete('settings/pages/{id}/force-delete', [SettingController::class, 'forceDeletePage'])->name('settings.pages.force-delete');
         Route::get('settings/pages/{page}/edit', [SettingController::class, 'editPage'])->name('settings.pages.edit');
         Route::put('settings/pages/{page}', [SettingController::class, 'updatePage'])->name('settings.pages.update');
+        Route::delete('settings/pages/{page}', [SettingController::class, 'destroyPage'])->name('settings.pages.destroy');
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::post('users', [UserController::class, 'store'])->name('users.store');
         Route::put('users/{user}/role', [UserController::class, 'updateRole'])->name('users.update-role');
