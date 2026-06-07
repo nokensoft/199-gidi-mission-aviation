@@ -1,5 +1,40 @@
 @extends('layouts.public')
 @section('title', $post->title . ' - GIDI Mission Aviation')
+@section('meta_description', Str::limit(strip_tags($post->excerpt ?: $post->content), 160))
+@section('meta_keywords', $post->categories->pluck('name')->implode(', ') . ', GIDI Mission Aviation, penerbangan misi')
+@section('og_type', 'article')
+@section('og_image', $post->featured_image ? asset('uploads/'.$post->featured_image) : asset('images/logo.png'))
+@section('canonical_url', route('blog.show', $post->slug))
+
+@push('seo')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ $post->title }}",
+    "description": "{{ Str::limit(strip_tags($post->excerpt ?: $post->content), 160) }}",
+    "image": "{{ $post->featured_image ? asset('uploads/'.$post->featured_image) : asset('images/logo.png') }}",
+    "datePublished": "{{ $post->published_at?->toIso8601String() }}",
+    "dateModified": "{{ $post->updated_at->toIso8601String() }}",
+    "author": {
+        "@type": "Organization",
+        "name": "GIDI Mission Aviation"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "GIDI Mission Aviation",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('images/logo.png') }}"
+        }
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ route('blog.show', $post->slug) }}"
+    }
+}
+</script>
+@endpush
 
 @section('content')
 <article class="section-shell bg-white">

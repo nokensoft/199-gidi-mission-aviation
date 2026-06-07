@@ -1,5 +1,36 @@
 @extends('layouts.public')
 @section('title', 'GIDI Mission Aviation - Be The Light')
+@section('meta_description', \App\Models\SiteSetting::get('site_description', 'GIDI Mission Aviation - Wujud kemandirian Gereja Injili di Indonesia di bidang penerbangan dalam mendukung pelayanan misi Gereja.'))
+@section('meta_keywords', 'GIDI, Mission Aviation, Penerbangan Misi, Papua, Gereja Injili, Donasi, Cessna Grand Caravan, PT Sayap Kasih Injili, Be The Light')
+@section('og_image', asset('images/logo.png'))
+
+@push('seo')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "GIDI Mission Aviation",
+    "alternateName": "PT. Sayap Kasih Injili",
+    "url": "{{ url('/') }}",
+    "logo": "{{ asset('images/logo.png') }}",
+    "description": "{{ \App\Models\SiteSetting::get('site_description', 'Wujud kemandirian Gereja Injili di Indonesia di bidang penerbangan dalam mendukung pelayanan misi Gereja.') }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ \App\Models\SiteSetting::get('office_address', '') }}"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "{{ \App\Models\SiteSetting::get('contact_phone_1', '') }}",
+        "contactType": "customer service"
+    },
+    "sameAs": [
+        "{{ \App\Models\SiteSetting::get('facebook_url', '') }}",
+        "{{ \App\Models\SiteSetting::get('instagram_url', '') }}",
+        "{{ \App\Models\SiteSetting::get('youtube_url', '') }}"
+    ]
+}
+</script>
+@endpush
 
 @section('content')
 @php $s = fn($key, $default = '') => \App\Models\SiteSetting::get($key, $default); @endphp

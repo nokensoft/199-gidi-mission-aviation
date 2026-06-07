@@ -1,5 +1,9 @@
 @extends('layouts.public')
 @section('title', $page->title . ' - GIDI Mission Aviation')
+@section('meta_description', Str::limit(strip_tags($page->content), 160))
+@section('og_type', 'article')
+@section('og_image', asset('images/logo.png'))
+@section('canonical_url', route('page.show', $page->slug))
 
 @section('content')
 <section class="section-shell bg-white">

@@ -1,5 +1,9 @@
 @extends('layouts.public')
-@section('title', $selectedCategory ? 'Kategori: '.$selectedCategory->name : 'Blog - GIDI Mission Aviation')
+@section('title', $selectedCategory ? 'Kategori: '.$selectedCategory->name.' - GIDI Mission Aviation' : 'Blog - GIDI Mission Aviation')
+@section('meta_description', $selectedCategory ? 'Artikel dan berita terkait '.$selectedCategory->name.' dari GIDI Mission Aviation.' : 'Baca artikel, berita, dan informasi terbaru seputar penerbangan misi GIDI di Papua.')
+@section('meta_keywords', 'blog, artikel, berita, GIDI Mission Aviation, penerbangan misi, Papua' . ($selectedCategory ? ', '.$selectedCategory->name : ''))
+@section('og_type', 'website')
+@section('og_image', asset('images/logo.png'))
 
 @section('content')
 <section class="section-shell bg-white">

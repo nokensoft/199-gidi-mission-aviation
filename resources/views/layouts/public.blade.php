@@ -4,17 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'GIDI Mission Aviation')</title>
+    <title>@yield('title', 'GIDI Mission Aviation - Be The Light')</title>
     @php
         $siteLogo = \App\Models\SiteSetting::get('site_logo');
         $siteFavicon = \App\Models\SiteSetting::get('site_favicon');
         $logoUrl = $siteLogo ? asset('uploads/'.$siteLogo) : asset('images/logo.png');
         $faviconUrl = $siteFavicon ? asset('uploads/'.$siteFavicon) : asset('images/logo.png');
+        $defaultDescription = \App\Models\SiteSetting::get('site_description', 'GIDI Mission Aviation - Wujud kemandirian Gereja Injili di Indonesia di bidang penerbangan dalam mendukung pelayanan misi Gereja.');
     @endphp
+
+    {{-- SEO Meta --}}
+    <meta name="description" content="@yield('meta_description', $defaultDescription)">
+    <meta name="keywords" content="@yield('meta_keywords', 'GIDI, Mission Aviation, Penerbangan Misi, Papua, Gereja Injili, Donasi, Cessna Grand Caravan, PT Sayap Kasih Injili')">
+    <meta name="author" content="GIDI Mission Aviation">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="@yield('canonical_url', url()->current())">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:site_name" content="GIDI Mission Aviation">
+    <meta property="og:title" content="@yield('title', 'GIDI Mission Aviation - Be The Light')">
+    <meta property="og:description" content="@yield('meta_description', $defaultDescription)">
+    <meta property="og:url" content="@yield('canonical_url', url()->current())">
+    <meta property="og:image" content="@yield('og_image', $logoUrl)">
+    <meta property="og:image:alt" content="@yield('title', 'GIDI Mission Aviation')">
+    <meta property="og:locale" content="id_ID">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="@yield('twitter_card', 'summary_large_image')">
+    <meta name="twitter:title" content="@yield('title', 'GIDI Mission Aviation - Be The Light')">
+    <meta name="twitter:description" content="@yield('meta_description', $defaultDescription)">
+    <meta name="twitter:image" content="@yield('og_image', $logoUrl)">
+
     <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/png">
     <link rel="icon" href="{{ $faviconUrl }}" type="image/png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    @stack('seo')
 </head>
 <body class="bg-slate-50 text-slate-800">
 
