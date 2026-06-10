@@ -443,7 +443,7 @@
 </section>
 
 {{-- TESTIMONI --}}
-<section id="testimoni" class="section-shell bg-slate-50 border-t border-slate-100">
+{{-- <section id="testimoni" class="section-shell bg-slate-50 border-t border-slate-100">
     <div class="section-container">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Testimoni</span>
@@ -462,7 +462,90 @@
             @endforeach
         </div>
     </div>
+</section> --}}
+
+
+
+
+
+{{-- DONASI / PENDONOR --}}
+<section id="donasi" class="section-shell bg-slate-50 border-t border-slate-100">
+    <div class="section-container">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider block mb-2">Donasi</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Pendonor & Mitra</h2>
+            <p class="text-slate-500 mt-3">Terima kasih kepada para donatur yang telah mendukung pengadaan armada pesawat misi GIDI.</p>
+        </div>
+
+        <!-- Total Donasi Terkumpul -->
+        <div class="max-w-md mx-auto mb-12">
+            <div class="bg-white rounded-3xl p-8 text-center border border-emerald-100 shadow-sm">
+                <p class="text-emerald-600 text-sm font-medium uppercase tracking-widest">Total Terkumpul</p>
+                <p class="text-5xl sm:text-6xl font-bold text-slate-900 mt-3 tracking-tighter">
+                    Rp {{ number_format($totalDonations ?? 0, 0, ',', '.') }} 
+                </p>
+                <p class="text-slate-500 mt-2">dari seluruh donatur yang telah dikonfirmasi</p>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($donations as $donation)
+            <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex flex-col justify-between hover:shadow-md transition duration-300">
+                <div>
+                    {{-- <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                            ✓ Confirmed
+                        </span>
+                        @if($donation->package)
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                                {{ str_replace('level_', 'Level ', $donation->package) }}
+                            </span>
+                        @endif
+                    </div> --}}
+                    
+                    <!-- Nominal Donasi -->
+                    <div class="mb-5">
+                        <p class="text-emerald-600 font-bold text-2xl">
+                            Rp {{ number_format($donation->amount ?? $donation->nominal ?? 0, 0, ',', '.') }}
+                        </p>
+                        <p class="text-xs text-slate-500 -mt-1">Nominal Donasi</p>
+                    </div>
+                    
+                    <p class="text-slate-600 text-sm leading-relaxed italic mb-6">
+                        "{{ $donation->notes ?? 'Dukungan penuh untuk penerbangan misi GIDI.' }}"
+                    </p>
+                </div>
+                
+                <div class="mt-auto pt-4 border-t border-slate-100">
+                    <h4 class="font-bold text-slate-900">{{ $donation->donor_name }}</h4>
+                    {{-- @if($donation->donor_phone)
+                        <p class="text-xs text-slate-500">{{ $donation->donor_phone }}</p>
+                    @endif --}}
+                    @if($donation->confirmed_at)
+                        <p class="text-xs text-emerald-600 mt-1">
+                            {{ $donation->confirmed_at->diffForHumans() }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center mt-12">
+            {{ $donations->links() }}
+        </div>
+
+        <div class="flex items-center gap-2">
+            <a href="#formulir-donasi" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md shadow-blue-500/10 flex items-center justify-center gap-2 tracking-wide text-base uppercase"><i class="fa fa-plane"></i> Ikut Berdonasi</a>
+        </div>
+    </div>
 </section>
+
+
+
+
+
 
 {{-- MITRA KERJA --}}
 <section id="mitra-kerja" class="section-shell bg-slate-50 border-t border-slate-100">

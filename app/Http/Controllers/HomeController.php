@@ -21,6 +21,26 @@ class HomeController extends Controller
         $testimonials = Testimonial::approved()->where('visibility', 'public')->orWhere(function ($q) {
             $q->approved()->where('visibility', 'anonymous');
         })->latest()->take(8)->get();
+
+        $donations = Donation::with('testimonial')
+            ->where('status', 'confirmed')
+            ->latest('confirmed_at')
+            ->paginate(8);
+
+        $totalDonations = Donation::where('status', 'confirmed')
+            ->selectRaw('
+                SUM(
+                    CASE 
+                        WHEN package = "level_01" THEN 500000
+                        WHEN package = "level_02" THEN 5000000
+                        WHEN package = "level_03" THEN 10000000
+                        WHEN package = "custom" THEN COALESCE(custom_amount, 0)
+                        ELSE 0 
+                    END
+                ) as total
+            ')
+            ->value('total');
+
         $partners = Partner::orderBy('sort_order')->get();
 
         $visitorTotal  = VisitorLog::count();
@@ -29,7 +49,7 @@ class HomeController extends Controller
                             ->whereYear('visited_at', now()->year)->count();
 
         return view('public.home', compact(
-            'sliders', 'services', 'testimonials', 'partners',
+            'sliders', 'services', 'testimonials', 'donations', 'totalDonations', 'partners',
             'visitorTotal', 'visitorToday', 'visitorMonth'
         ));
     }
